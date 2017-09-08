@@ -1,0 +1,33 @@
+nestedLoop():
+    xs
+      .foreach(
+        x => ys.foreach(
+          y => zs.foreach(
+            z => println(s"$x, $y, $z")
+          )
+        )
+      )
+
+nestedLoopYield():
+    xs
+      .flatMap(
+        x => ys.flatMap(
+          y => zs.map(
+            z => z)
+        )
+      )
+
+nestedLoopYieldCond():
+    xs
+      .flatMap(
+        x => ys.flatMap(
+          y => zs.map(
+            z => z).filterNot(_ == 9)
+        )
+      )
+
+yntacticSugar():
+      for {
+          n <- ns
+          r <- isEven(n)
+        } yield r
