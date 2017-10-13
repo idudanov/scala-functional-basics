@@ -126,7 +126,7 @@ object ReductionRepl {
       )
   }
 
-//  structural recursion [https://underscore.io/blog/posts/2015/06/02/everything-about-sealed.html]
+//  structural recursion []
   Map(0 -> "zero", 1 -> "one", 2 -> "two").map(kv => kv match { case (k, v) => (v, k) })
   Map(0 -> "zero", 1 -> "one", 2 -> "two").map { case (k, v) => (v, k) }
 
