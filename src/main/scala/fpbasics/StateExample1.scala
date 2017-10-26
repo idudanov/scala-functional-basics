@@ -13,6 +13,11 @@ object StateExample1 extends App {
     * Stack is an ordered list of similar data type. Stack is a LIFO structure. (Last in First out). push() function is
     * used to insert new elements into the Stack and pop() function is used to delete an element from the stack. Both
     * insertion and deletion are allowed at only one end of Stack called Top.
+    *
+    *
+    * Dijkstra's Two-Stack Algorithm - The evaluation of arithmetic expressions
+    * [[http://www.wisenheimerbrainstorm.com/archive/algorithms/dijkstra-s-two-stack-algorithm]]
+    *
     */
 
   /**
