@@ -41,14 +41,14 @@ class StateTest extends FunSuite with Matchers {
       s <- FunctionalState.addUnique(Job(1L, 250L)).get
     } yield s).runA(List()).value
 
-    result shouldBe List(Job(1L, 500L), Job(2L, 2L))
+    result.sorted shouldBe List(Job(1L, 500L), Job(2L, 2L)).sorted
   }
 
   test("State manipulation") {
 
     val result = FunctionalState.stateResult
 
-    result._1 shouldBe List(Job(1,50), Job(2,100), Job(3,150))
+    result._1.sorted shouldBe List(Job(1,50), Job(2,100), Job(3,150)).sorted
     result._2 shouldBe Some(Job(1, 50))
 
   }
