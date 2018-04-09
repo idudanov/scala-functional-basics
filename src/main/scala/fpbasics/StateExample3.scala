@@ -17,8 +17,8 @@ object StateExample3 extends App {
   /**
     * State manipulation function
     */
-  def pop() = State[Stack, Int] (
-    s => (s.slice(1, s.size), s.head)
+  def pop = State[Stack, Option[Int]] (
+    s => (s.slice(1, s.size), s.headOption)
   )
 
   /**
@@ -32,10 +32,10 @@ object StateExample3 extends App {
     * Client calls
     * Now we can construct compound programs by composing the monad.
     */
-  def stackManipulation: State[Stack, Int] = for {
+  def stackManipulation: State[Stack, Option[Int]] = for {
     _ <- push(3)
-    a <- pop()
-    b <- pop()
+    a <- pop
+    b <- pop
   } yield b
 
   /**

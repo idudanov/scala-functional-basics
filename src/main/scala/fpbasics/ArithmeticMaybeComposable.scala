@@ -13,7 +13,7 @@ object ArithmeticMaybeComposable extends App {
   println(
       multiplication(5, 2)
         .flatMap(m => subtraction(m, 2))
-        .flatMap(s => division(s, 4))
+        .flatMap(s => division(s, 0))
         .flatMap(d => addition(d, 5))
   )
 

@@ -90,9 +90,16 @@ object FutureRepl {
     *
     */
 
+    val r = for {
+      a <- Future{6 / 3}
+      b <- Future {
+        a / 0
+      }
+    } yield b
+
   val epicFail: Future[Int] = Future {
     Thread sleep 3000
-    6 / 3
+    6 / 1
   }
 
   def fn(x: Int, y: Int, d: Long): Int = {

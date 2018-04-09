@@ -11,8 +11,8 @@ object StateExample2 extends App {
   /**
     * State manipulation function
     */
-  def pop(s: Stack): (Stack, Int) = {
-    (s.slice(1, s.size), s.head)
+  def pop(s: Stack): (Stack, Option[Int]) = {
+    (s.slice(1, s.size), s.headOption) /* this equals [if (s.nonEmpty) Some(s.head) else None] */
   }
 
   /**
@@ -23,7 +23,7 @@ object StateExample2 extends App {
   /**
     * Client calls
     */
-  def stackManipulation(s: Stack): (Stack, Int) = {
+  def stackManipulation(s: Stack): (Stack, Option[Int]) = {
     val (s1, _) = push(s, 3)
     val (s2, a) = pop(s1)
     pop(s2)

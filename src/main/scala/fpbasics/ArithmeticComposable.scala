@@ -14,7 +14,7 @@ object ArithmeticComposable extends App {
     for {
       m <- multiplication(5, 2)
       s <- subtraction(m, 2)
-      d <- division(s, 4)
+      d <- division(s, 0)
       a <- addition(d, 5)
     } yield a
   )

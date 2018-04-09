@@ -1,5 +1,7 @@
 package fpbasics
 
+import cats.data.State
+
 object StateExample4 extends App {
 
   /**
@@ -33,33 +35,31 @@ object StateExample4 extends App {
   /**
     * Creating a custom type Stack
     */
-  type Stack = List[Int]
+  type Stack[A] = State[List[Int], A]
 
   import cats.data._
 
   /**
     * State manipulation function
     */
-  def pop(): State[Stack, Int] = for {
-    s <- State.get[Stack]
-    _ <- State.set[Stack](s.slice(1, s.size))
-  } yield s.head
+  def pop: Stack[Option[Int]] = for {
+    s <- State.get
+    _ <- State.set(s.slice(1, s.size))
+  } yield s.headOption
 
   /**
     * State manipulation function
     */
 
-  def push(a: Int): State[Stack, Unit] = for {
-    _ <- State.modify[Stack](s => a :: s)
-  } yield ()
+  def push(a: Int): Stack[Unit] = State(s => (a :: s, ()))
 
   /**
     * Client calls
     */
-  def stackManipulation: State[Stack, Int] = for {
+  def stackManipulation: Stack[Option[Int]] = for {
     _ <- push(3)
-    a <- pop()
-    b <- pop()
+    _ <- pop
+    b <- pop
   } yield b
 
   /**

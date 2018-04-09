@@ -39,7 +39,7 @@ class JobProcessor1 {
         throw new JobNotFoundException(jobId1)
       }
     }
-    private def difference(salary1: Double, salary2: Double) = salary1 - salary2
+    private def difference(salary1: Double, salary2: Double) = math.abs(salary1 - salary2)
   }
 }
 

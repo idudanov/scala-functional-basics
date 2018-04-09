@@ -12,7 +12,11 @@ object Arithmetic extends App {
 
 
   println(
-    addition(division(subtraction(multiplication(5, 2), 2), 4), 5)
+    addition(
+      division(
+        subtraction(
+          multiplication(5, 2), 2), 0), 5
+    )
   )
 
 }

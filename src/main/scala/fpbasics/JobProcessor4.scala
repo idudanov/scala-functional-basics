@@ -23,7 +23,7 @@ class JobProcessor4 {
 
     private def findJob(jobId: Long) = jobs.find(_.jobId == jobId)
 
-    private def difference(salary1: Double, salary2: Double) = salary1 - salary2
+    private def difference(salary1: Double, salary2: Double) = math.abs(salary1 - salary2)
   }
 }
 

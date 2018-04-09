@@ -1,7 +1,5 @@
 package fpbasics
 
-import scala.util.{Failure, Success, Try}
-
 /**
   * A Scala-like implementation :)))
   */
@@ -14,26 +12,26 @@ class JobProcessor3 {
 
   case class SalaryComparator(private val jobs: Seq[Job]) {
 
-    def salaryDifference(jobId1: Long, jobId2: Long): Try[Double] = {
+    def salaryDifference(jobId1: Long, jobId2: Long): Either[Exception, Double] = {
 
       findJob(jobId1)
-        .fold[Try[Double]](Failure(new JobNotFoundException(jobId1))) { job1 =>
+        .fold[Either[Exception, Double]](Left(new JobNotFoundException(jobId1))) { job1 =>
         findJob(jobId2)
-            .fold[Try[Double]](Failure(new JobNotFoundException(jobId2))) { job2 =>
-            Success(difference(job1.salary, job2.salary))
+            .fold[Either[Exception, Double]](Left(new JobNotFoundException(jobId2))) { job2 =>
+          Right(difference(job1.salary, job2.salary))
           }
         }
     }
 
     private def findJob(jobId: Long) = jobs.find(_.jobId == jobId)
 
-    private def difference(salary1: Double, salary2: Double) = salary1 - salary2
+    private def difference(salary1: Double, salary2: Double) = math.abs(salary1 - salary2)
   }
 }
 
 /**
   * This solution can be seen more often. It is a bit more functional and scala-like, but this is just syntactically
-  * hiding the if-else statements, and the method signature does not say anything about the possible outcome
+  * hiding the if-else statements.
   *
   * It is somehow shorter but the readability still can be improved.
   *
