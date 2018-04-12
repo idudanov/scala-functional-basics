@@ -36,7 +36,7 @@ object KleisliTransformer extends App {
   def readSecond = Kleisli[Result, UserA, Int] {
     userA => Right(userA.lastname.hashCode)
   }
-  
+
   /**
     * To repeat:
     *

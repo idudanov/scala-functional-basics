@@ -2,7 +2,7 @@ package fpbasics
 
 import cats.implicits._
 
-object KleisliExample3 extends App {
+object KleisliInjection3 extends App {
 
   val contextService = new ContextServiceNaive
 
@@ -22,10 +22,6 @@ object KleisliExample3 extends App {
   println(userPipeline)
 
   /**
-    * This solution is functional
-    *
-    * It is somehow shorter but the readability still can be improved.
-    *
     * The benefit of the last 3 solutions (including this one) is that they make the decision tree pretty obvious:
     *
     * If the first user is not available then return with error
@@ -39,7 +35,10 @@ object KleisliExample3 extends App {
     * We need the calculated result at the end of the happy path, but we would like to terminate immediately when some
     * intermediate calculation fails.
     *
-    * In FP this called a short-circuiting a computation.
+    *
+    * This solution is functional, and we are using a short-circuiting computation, but ...
+    *
+    * It is somehow shorter, however, the readability still can be improved.
     *
     * Unfortunately, our solution still uses encapsulation as a dependency injection mechanism.
     */

@@ -3,12 +3,21 @@ package fpbasics
 import cats.data.Kleisli
 import cats.implicits._
 
-object KleisliCategory extends App {
+object KleisliComposition extends App {
 
+  /**
+    * Kleisli
+    *
+    * Composition, transformation, injection
+    */
+
+  // ( 2 * x ) + 3
   def linear(x : Int): Int = ( 2 * x ) + 3
 
+  // x ^ 2
   def quadratic(x: Int) : Int = scala.math.pow(x, 2).toInt
 
+  // 1.0 / x
   def reciprocal(x: Int): Double = 1.0 / x
 
   //linear o quadratic o reciprocal = 1.0 / [ { ( 2 * x ) + 3 } ^ 2 ]

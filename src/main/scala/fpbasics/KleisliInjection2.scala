@@ -1,6 +1,6 @@
 package fpbasics
 
-object KleisliExample2 extends App {
+object KleisliInjection2 extends App {
 
   val contextService = new ContextServiceNaive
 

@@ -1,6 +1,6 @@
 package fpbasics
 
-object KleisliExample1 extends App {
+object KleisliInjection1 extends App {
 
   /**
     * Encapsulation in OOP is a mechanism of wrapping the data (variables) and code acting on the data (methods)
