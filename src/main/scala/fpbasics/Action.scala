@@ -14,7 +14,6 @@ object Action {
     }
   }
 
-  def fromOption[A](fa: Context => Option[A], fb: Context => Exception): Action[A] = Kleisli[Result, Context, A] { context =>
-    Either.fromOption[Exception, A](fa(context), fb(context))
-  }
+  def fromOption[A](fa: Context => Option[A], fb: Context => Exception): Action[A] =
+    Kleisli[Result, Context, A] { context => Either.fromOption[Exception, A](fa(context), fb(context)) }
 }

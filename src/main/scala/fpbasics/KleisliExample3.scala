@@ -30,7 +30,7 @@ object KleisliExample3 extends App {
     *
     * If the first user is not available then return with error
     *
-    * If the first user is available then fetch the second job
+    * If the first user is available then fetch the second user
     *
     * If the second user is not available then return with error
     *

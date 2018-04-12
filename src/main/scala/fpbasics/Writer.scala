@@ -26,7 +26,9 @@ case class Writer(value: Int, diary: String) {
     *
     */
   def flatMap(f: Int => Writer): Writer = {
-    ???
+    f(value) match {
+      case Writer(result, d) => Writer(result, diary + d)
+    }
   }
 
   /**
