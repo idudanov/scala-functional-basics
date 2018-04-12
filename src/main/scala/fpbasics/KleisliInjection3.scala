@@ -36,11 +36,10 @@ object KleisliInjection3 extends App {
     * intermediate calculation fails.
     *
     *
-    * This solution is functional, and we are using a short-circuiting computation, but ...
+    * This solution is functional, it is somehow shorter, and we are using a short-circuiting computation!
     *
-    * It is somehow shorter, however, the readability still can be improved.
-    *
-    * Unfortunately, our solution still uses encapsulation as a dependency injection mechanism.
+    * However, the readability still can be improved, and unfortunately our solution still uses encapsulation as a
+    * dependency injection mechanism.
     */
 
 }
