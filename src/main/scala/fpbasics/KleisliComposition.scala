@@ -32,6 +32,15 @@ object KleisliComposition extends App {
 
   //do you want to check your math? ;)
   //quadratic o reciprocal o linear = ???
+  /*
+    Linear function
+
+    f(x) = mx + b
+    x - independent variable
+    m - slope
+    b - y intercept
+
+   */
 
   /**
     * Lets sum it up!
@@ -39,10 +48,13 @@ object KleisliComposition extends App {
     * That is, given a function A => B and a function B => C, we can combine them to create a new function A => C
     *
     * A => |B|
-    *      |B| => C
+    *      |B| => C     this leeds to     A => C
     *
     * So, our case:
-    * Int => Int then Int => Int and then Int => Double we can combine that to Int => Double
+    *
+    * Int => Int then Int => Int and then Int => Double
+    *
+    * We can combine that to Int => Double
     *
     */
 
