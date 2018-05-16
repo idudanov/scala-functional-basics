@@ -6,11 +6,14 @@ import cats.data.Kleisli
 import cats.implicits._
 
 object Action {
-  def apply[A](f: Context => A): Action[A] = Kleisli[Result, Context, A] { context =>
+
+  def apply[A](f: Context => A): Action[A] = pure(f)
+
+  def pure[A](f: Context => A): Action[A] = Kleisli[Result, Context, A] { context =>
     try {
-      Result.ok(f(context))
+      Result.success(f(context))
     } catch {
-      case e: Exception => Result.error(e)
+      case e: Exception => Result.failure(e)
     }
   }
 

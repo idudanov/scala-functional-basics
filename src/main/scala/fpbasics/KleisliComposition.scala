@@ -11,27 +11,6 @@ object KleisliComposition extends App {
     * Composition, transformation, injection
     */
 
-  // ( 2 * x ) + 3
-  def linear(x : Int): Int = ( 2 * x ) + 3
-
-  // x ^ 2
-  def quadratic(x: Int) : Int = scala.math.pow(x, 2).toInt
-
-  // 1.0 / x
-  def reciprocal(x: Int): Double = 1.0 / x
-
-  //linear o quadratic o reciprocal = 1.0 / [ { ( 2 * x ) + 3 } ^ 2 ]
-  val result1 = linear _ andThen quadratic andThen reciprocal apply 3
-
-  println(result1)
-
-  //quadratic o linear o reciprocal = 1.0 / { ( 2 * x ^ 2 ) + 3 }
-  val result2 = quadratic _ andThen linear andThen reciprocal apply 3
-
-  println(result2)
-
-  //do you want to check your math? ;)
-  //quadratic o reciprocal o linear = ???
   /*
     Linear function
 
@@ -41,6 +20,34 @@ object KleisliComposition extends App {
     b - y intercept
 
    */
+
+  // ( 2 * x ) + 3
+  def linear(x : Int): Int = ( 2 * x ) + 3
+
+  // x ^ 2
+  def quadratic(x: Int) : Int = math.pow(x, 2).toInt
+
+  // 1.0 / x
+  def reciprocal(x: Int): Double = 1.0 / x
+
+  //linear o quadratic o reciprocal = 1.0 / [ { ( 2 * x ) + 3 } ^ 2 ]
+
+  val result0 = reciprocal(quadratic(linear(3)))
+
+  println(result0)
+
+  val result1 = linear _ andThen quadratic andThen reciprocal apply 3
+
+  println(result1)
+
+  //quadratic o linear o reciprocal = 1.0 / { ( 2 * x ^ 2 ) + 3 }
+
+  def pipeline: Int => Double = quadratic _ andThen linear andThen reciprocal
+
+  println ( pipeline apply 3 )
+
+  //do you want to check your math? ;)
+  //quadratic o reciprocal o linear = ???
 
   /**
     * Lets sum it up!
@@ -60,16 +67,19 @@ object KleisliComposition extends App {
 
   def linearM(x : Int): Option[Int] = Some(( 2 * x ) + 3)
 
-  def quadraticM(x: Int): Option[Int] = Some(scala.math.pow(x, 2).toInt)
+  def quadraticM(x: Int): Option[Int] = Some(math.pow(x, 2).toInt)
 
   def reciprocalM(x: Int): Option[Double] = if (x != 0) Some(1.0 / x) else None
 
   /**
     * linearM _ andThen quadraticM andThen reciprocalM apply 3
     *
-    * So, why is this does not work???
+    * So, why this does not work???
     *
     * Because, our functions return monadic values.
+    *
+    * A => F[B]
+    *        B => C
     */
 
   val result3 = for {
@@ -86,15 +96,15 @@ object KleisliComposition extends App {
     *
     * Kleisli[F[_], A, B] which is just A => F[B]
     *
-    *             Monad(F[_]) In(A) Out(B)
-    *                   |       |    |
-    *                   v       v    v
+    *             Monad(F[_]) In(A) Out(B)            A         F[B]       B
+    *                   |       |    |                |          |         |
+    *                   v       v    v                v          v         v
     */
-  def linearK: Kleisli[Option, Int, Int] = Kleisli((x: Int) => Some(( 2 * x ) + 3))
+  def linearK: Kleisli[Option, Int, Int] = Kleisli((x: Int) => Some( ( 2 * x ) + 3 ) )
 
-  def quadraticK: Kleisli[Option, Int, Int] = Kleisli((x: Int) => Some(scala.math.pow(x, 2).toInt))
+  def quadraticK: Kleisli[Option, Int, Int] = Kleisli((x: Int) => Some( math.pow(x, 2).toInt ) )
 
-  def reciprocalK: Kleisli[Option, Int, Double] = Kleisli((x: Int) => if (x != 0) Some(1.0 / x) else None)
+  def reciprocalK: Kleisli[Option, Int, Double] = Kleisli((x: Int) => if (x != 0) Some( 1.0 / x ) else None )
 
   val result4 = linearK andThen quadraticK andThen reciprocalK run 3
 
@@ -105,5 +115,19 @@ object KleisliComposition extends App {
     * of the F[_], we can do different things with Kleislis. For instance, if F[_] has a FlatMap[F] instance
     * (we can call flatMap on F[A] values), we can compose two Kleislis much like we can two functions.
     */
+
+  /**
+    * Kleisli also has some interesting methods like lift, which allows you to lift a monadic function into another
+    * applicative functor.
+    */
+  def square: Kleisli[Option, Int, Int] = Kleisli { x: Int => (x * x).some }
+
+  val lft = square.lift[List]
+
+  println( List(1, 2, 3) >>= lft.run )
+
+  println( List(1, 2, 3).flatMap(lft.run) )
+
+  println( List(1, 2, 3).flatMap(f => lft.run(f)) )
 
 }

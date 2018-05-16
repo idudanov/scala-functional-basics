@@ -10,7 +10,7 @@ crossScalaVersions := Seq("2.11.8", "2.12.3")
 
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "1.0.0-MF",
+  "org.typelevel" %% "cats-core" % "1.0.1",
 
   "com.twitter" %% "finagle-http" % "7.1.0",
 
