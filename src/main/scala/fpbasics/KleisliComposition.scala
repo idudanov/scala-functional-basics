@@ -78,8 +78,8 @@ object KleisliComposition extends App {
     *
     * Because, our functions return monadic values.
     *
-    * A => F[B]
-    *        B => C
+    * A => |F[B]|
+    *      | B  | => C
     */
 
   val result3 = for {
@@ -96,11 +96,11 @@ object KleisliComposition extends App {
     *
     * Kleisli[F[_], A, B] which is just A => F[B]
     *
-    *             Monad(F[_]) In(A) Out(B)            A         F[B]       B
-    *                   |       |    |                |          |         |
-    *                   v       v    v                v          v         v
+    *             Monad(F[_]) In(A) Out(B)             A         F[B]       B
+    *                   |       |    |                 |          |         |
+    *                   v       v    v                 v          v         v
     */
-  def linearK: Kleisli[Option, Int, Int] = Kleisli((x: Int) => Some( ( 2 * x ) + 3 ) )
+  def linearK: Kleisli[Option, Int, Int] = Kleisli( (x: Int) => Some( ( 2 * x ) + 3 ) )
 
   def quadraticK: Kleisli[Option, Int, Int] = Kleisli((x: Int) => Some( math.pow(x, 2).toInt ) )
 
@@ -128,6 +128,6 @@ object KleisliComposition extends App {
 
   println( List(1, 2, 3).flatMap(lft.run) )
 
-  println( List(1, 2, 3).flatMap(f => lft.run(f)) )
+  println( List(1, 2, 3).flatMap( f => lft.run(f) ) )
 
 }
