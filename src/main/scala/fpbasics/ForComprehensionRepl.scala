@@ -186,7 +186,7 @@ object ForComprehensionRepl {
   newXs.flatMap(x => x.eq("poor") match { case true => List() case _ => List(x) } )
 
   /**
-    * Now with Option!
+    * flatMap can be seen as a glue for functional composition!
     */
 
   Option(2).flatMap(two => Option(two * two))
@@ -196,6 +196,10 @@ object ForComprehensionRepl {
     two    <- Option(2)
     square <- Option(two * two)
   } yield square
+
+  /**
+    * Lets stop here for a moment.
+    */
 
   /**
     * How to turn these three lists?
