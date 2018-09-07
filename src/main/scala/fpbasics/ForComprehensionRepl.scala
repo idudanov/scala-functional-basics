@@ -198,12 +198,14 @@ object ForComprehensionRepl {
   } yield square
 
   /**
-    * How to turn this?
+    * How to turn these three lists?
     * 1, 2, 3
+    *
     * 4, 5, 6
+    *
     * 7, 8, 9
     *
-    * To that:
+    * to that output:
     * 1, 4, 7
     * 1, 4, 8
     * 1, 4, 9
