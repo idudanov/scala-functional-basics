@@ -154,7 +154,7 @@ object ForComprehensionRepl {
 
   for(vector <- vs; dimension <- vector; result = dimension * 2) yield result
 
-//  def flatMap[B](f: Vector[A] => Vector[B]): Vector[B]
+//  def flatMap[B](f: Vector[A] => Vector[B]): List[B]
   vs.flatMap(vector => vector.map(dimension => dimension * 2))
 
   //translates to something that called syntactic sugar for composition
@@ -183,6 +183,7 @@ object ForComprehensionRepl {
     */
   val newXs: List[String] = xs ++ List("poor")
 
+  //def flatMap[B](f: A => List[B]): List[B]
   newXs.flatMap(x => x.eq("poor") match { case true => List() case _ => List(x) } )
 
   /**
