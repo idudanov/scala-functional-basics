@@ -26,7 +26,7 @@ nestedLoopYieldCond():
         )
       )
 
-yntacticSugar():
+syntacticSugar():
       for {
           n <- ns
           r <- isEven(n)

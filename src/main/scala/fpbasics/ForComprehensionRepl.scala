@@ -5,11 +5,19 @@ object ForComprehensionRepl {
   val xs = List("accurate", "fast", "reliable", "rich")
 
   /**
+    * foreach
+    * filter and filterNot
+    * map
+    * flatMap
+    */
+
+
+  /**
     * for-comprehension: foreach
     *
     * def foreach(f: (A) ⇒ Unit): Unit
     *
-    * The foreach method takes a function as parameter and applies it to every element in the collection.
+    * The foreach method takes a function as parameter and applies it to every element in the collection(monad).
     * As an example, you can use foreach method to loop through all elements in a collection.
     */
 
@@ -20,15 +28,15 @@ object ForComprehensionRepl {
     println(s"$x search")
   }
 
-  def p(x: String): Unit = println(s"$x search")
+  def f(x: String): Unit = println(s"$x search")
 
-  xs.foreach(x => p(x))
+  xs.foreach(x => f(x))
   //or
-  xs.foreach(p(_))
+  xs.foreach(f(_))
   //or
-  xs.foreach(p)
+  xs.foreach(f)
   //or
-  xs foreach p
+  xs foreach f
 
   //final def foreach[U](f: Nothing => U): Unit
   //None.foreach(x => println(s"$x search"))
@@ -58,38 +66,54 @@ object ForComprehensionRepl {
   /**
     * for-comprehension: filter and filterNot
     *
-    * def filter(p: (A) ⇒ Boolean): Repr
+    * def filter(p: (A) ⇒ Boolean): F[B]
     *
-    * def filterNot(p: (A) ⇒ Boolean): Repr
+    * def filterNot(p: (A) ⇒ Boolean): F[B]
     *
     * The filter method takes a predicate function as its parameter and uses it to select all the elements in the
-    * collection which matches the predicate. It will return a new collection with elements that matched the predicate.
+    * collection(monad) which matches the predicate. It will return a new collection with elements that matched the predicate.
     *
     * The filterNot method is similar to the filter method except that it will create a new collection with elements
     * that do not match the predicate function.
     *
     */
 
-  xs.filter(_.eq("rich")).foreach(p)
+  xs.filter(_.eq("rich")).foreach(f)
 
   //translates to
   for(x <- xs; if x.eq("rich")) {
-    p(x)
+    f(x)
   }
 
-  xs.filterNot(_.eq("rich")).foreach(p)
+  xs.filterNot(_.eq("rich")).foreach(f)
 
   //translates to
   for(x <- xs; if x.ne("rich")) {
-    p(x)
+    f(x)
+  }
+
+  /**
+    * Now with Option!
+    */
+
+  Option("poor").filter(_.eq("rich")).foreach(f)
+
+  Option("rich").filterNot(x => x.eq("poor")).foreach(f)
+
+  Option(null).filter(_.eq("rich")).foreach(f)
+
+  //translates to
+  //for(int i = 0; i <= something.length; i++)
+  for(x <- Option(null); if x.eq("rich")) {
+    f(x)
   }
 
   /**
     * for-comprehension: map
     *
-    * def map[B](f: (A) ⇒ B): Traversable[B]
+    * def map[B](f: (A) ⇒ B): F[B]
     *
-    * Map is applying a function on each element of a collection similar to foreach, with the difference that map
+    * Map is applying a function on each element of a collection(monad) similar to foreach, with the difference that map
     * returns a new collection as a result. So we can think of the function supplied to map as a
     * transformation function, which we can use to transform a collection of N elements into a new collection of N
     * transformed elements.
@@ -100,21 +124,21 @@ object ForComprehensionRepl {
   //translates to
   for(x <- xs; y = s"$x search") yield y
 
-  def pUpper(x: String): String = s"$x search".toUpperCase()
+  def fUpper(x: String): String = s"$x search".toUpperCase()
 
-  xs.map(pUpper)
+  xs.map(fUpper)
   //translates to
-  for(x <- xs; y = pUpper(x)) yield y
+  for(x <- xs; y = fUpper(x)) yield y
 
   //final def map[B](f: Int => B): Option[B]
   safeDiv(6, 0).map(x => x)
 
-  safeDiv(6, 3).map { x => x + 1 }
+  safeDiv(6, -3).map( x => math.sqrt( math.pow(x, 2.0) ) )
 
   /**
     * for-comprehension: flatMap
     *
-    * def flatMap[B](f: (A) ⇒ GenTraversableOnce[B]): TraversableOnce[B]
+    * def flatMap[B](f: (A) ⇒ F[B]): F[B]
     *
     * The flatMap method takes a predicate function, applies it to every element in the collection. It then returns a
     * new collection by using the elements returned by the predicate function.
@@ -128,35 +152,50 @@ object ForComprehensionRepl {
 
   val vs = List(Vector(1, 2, 5), Vector(4, 8, 7), Vector())
 
-  vs.flatMap(x => x.map(y => y * 2))
-  //translates to
-  for(x <- vs; y <- x; z = y * 2) yield z
+  for(vector <- vs; dimension <- vector; result = dimension * 2) yield result
 
+//  def flatMap[B](f: Vector[A] => Vector[B]): Vector[B]
+  vs.flatMap(vector => vector.map(dimension => dimension * 2))
 
-  vs.flatMap(x => x)
   //translates to something that called syntactic sugar for composition
+  for {
+    vector    <- vs
+    dimension <- vector
+  } yield dimension * 2
+
+
+  //flattening the collection
+  vs.flatMap(x => x)
+
+  //translates to
   for {
     v <- vs
     r <- v
   } yield r
 
   /**
-    * Map and flatMap functions exist in other classes as well, not just collections. A good example are container
+    * Map and flatMap functions exist in other classes(monads) as well, not just collections. A good example are container
     * classes like Option, Future and Try. And we can implement them for our own classes as well.
     */
 
-  val oxs = List(Some("accurate"), Some("fast"), None, Some("reliable"), None, Some("rich"))
+  /**
+    *  Because of the flattening operation flatMap can change the collection size so that it can be used as a filter.
+    */
+  val newXs: List[String] = xs ++ List("poor")
 
-  //def flatMap[B](f: Option[String] => scala.collection.GenTraversableOnce[B]): scala.collection.TraversableOnce[B]
-  oxs.flatMap(x => x)
+  newXs.flatMap(x => x.eq("poor") match { case true => List() case _ => List(x) } )
 
-  oxs.flatten.foreach(x => println(s"$x search"))
+  /**
+    * Now with Option!
+    */
 
-  def pS(x: Option[String]): Option[String] = x match {
-    case Some(y) => Some(s"$y search") case _ => x
-  }
+  Option(2).flatMap(two => Option(two * two))
 
-  oxs.flatMap(pS)
+  //translates to
+  for {
+    two    <- Option(2)
+    square <- Option(two * two)
+  } yield square
 
   /**
     * How to turn this?

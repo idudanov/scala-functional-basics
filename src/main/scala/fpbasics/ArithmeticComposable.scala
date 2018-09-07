@@ -10,13 +10,13 @@ object ArithmeticComposable extends App {
 
   def subtraction(a: Int, b: Int): Option[Int] = Some(a - b)
 
-  println(
-    for {
+  val pipeline = for {
       m <- multiplication(5, 2)
       s <- subtraction(m, 2)
       d <- division(s, 0)
       a <- addition(d, 5)
     } yield a
-  )
+
+  pipeline.foreach(println)
 
 }
