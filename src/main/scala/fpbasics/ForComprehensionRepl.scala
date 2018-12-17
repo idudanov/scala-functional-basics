@@ -38,11 +38,11 @@ object ForComprehensionRepl {
   //or
   xs foreach f
 
-  //final def foreach[U](f: Nothing => U): Unit
-  //None.foreach(x => println(s"$x search"))
-
   //final def foreach[U](f: String => U): Unit
   Some("reliable").foreach(x => println(s"$x search"))
+
+  //final def foreach[U](f: Nothing => U): Unit
+  //None.foreach(x => println(s"$x search"))
 
   //Lets create a function
   def safeDiv(x: Int, y: Int): Option[Int] = try {
@@ -78,6 +78,7 @@ object ForComprehensionRepl {
     *
     */
 
+  //List("accurate", "fast", "reliable", "rich")
   xs.filter(_.eq("rich")).foreach(f)
 
   //translates to
@@ -111,12 +112,12 @@ object ForComprehensionRepl {
   /**
     * for-comprehension: map
     *
-    * def map[B](f: (A) ⇒ B): F[B]
+    * def map[B](f: A ⇒ B): F[B]
     *
-    * Map is applying a function on each element of a collection(monad) similar to foreach, with the difference that map
-    * returns a new collection as a result. So we can think of the function supplied to map as a
-    * transformation function, which we can use to transform a collection of N elements into a new collection of N
-    * transformed elements.
+    * Map is applying a function to a monad, or to each element of a collection which is also monad :) Similar to foreach,
+    * with the difference that map returns a monad with transformed value as a result. So we can think of the function
+    * supplied to map as a transformation/effective function, which we can use to transform a collection of N elements
+    * into a new collection of N transformed elements.
     */
 
   xs.map(x => s"$x search")
@@ -138,7 +139,8 @@ object ForComprehensionRepl {
   /**
     * for-comprehension: flatMap
     *
-    * def flatMap[B](f: (A) ⇒ F[B]): F[B]
+    * def flatMap[B](f: (A) ⇒ M[B]): F[B]
+    * def map[B]    (f: (A) ⇒ B)   : F[B]
     *
     * The flatMap method takes a predicate function, applies it to every element in the collection. It then returns a
     * new collection by using the elements returned by the predicate function.
