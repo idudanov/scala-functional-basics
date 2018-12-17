@@ -114,12 +114,13 @@ object ForComprehensionRepl {
     *
     * def map[B](f: A ⇒ B): F[B]
     *
-    * Map is applying a function to a monad, or to each element of a collection which is also monad :) Similar to foreach,
-    * with the difference that map returns a monad with transformed value as a result. So we can think of the function
-    * supplied to map as a transformation/effective function, which we can use to transform a collection of N elements
-    * into a new collection of N transformed elements.
+    * Map is applying a function to a value inside monad, or to each element of a collection which is also monad :)
+    * Similar to foreach, with the difference that map returns a monad with transformed value as a result. So we can
+    * think of the function supplied to map as a transformation/effective function, which we can use to transform a
+    * collection of N elements into a new collection of N transformed elements.
     */
 
+  //List("accurate", "fast", "reliable", "rich")
   xs.map(x => s"$x search")
 
   //translates to
@@ -139,14 +140,14 @@ object ForComprehensionRepl {
   /**
     * for-comprehension: flatMap
     *
-    * def flatMap[B](f: (A) ⇒ M[B]): F[B]
-    * def map[B]    (f: (A) ⇒ B)   : F[B]
+    * def flatMap[B](f: A ⇒ F[B]): F[B]
+    * def map[B]    (f: A ⇒ B   ): F[B]
     *
-    * The flatMap method takes a predicate function, applies it to every element in the collection. It then returns a
-    * new collection by using the elements returned by the predicate function.
+    * The flatMap or bind is similar to map, with the requirement that the value that effective function produces also
+    * a monad, and with an additional step of flattening after executing the effective function.
     *
-    * The flatMap is similar to map, with the requirement that the elements of the collection are collections as well, and
-    * with an additional step of flattening the elements of a collection after executing the transformation function.
+    * For collections, the flatMap method takes a effective function, applies it to every element in the collection.
+    * It then returns a new collection by using the elements returned by the effective/predicate function.
     *
     * Flatten is a standard operation of converting a lists of lists into one list with all the elements.
     * For all collection types.
@@ -183,6 +184,7 @@ object ForComprehensionRepl {
   /**
     *  Because of the flattening operation flatMap can change the collection size so that it can be used as a filter.
     */
+  //List("accurate", "fast", "reliable", "rich") ++ List("poor")
   val newXs: List[String] = xs ++ List("poor")
 
   //def flatMap[B](f: A => List[B]): List[B]
