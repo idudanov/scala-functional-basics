@@ -5,14 +5,39 @@ object ReductionRepl {
   /**
     * reduce
     *
-    * The reduce function takes an !!!associative!!! binary operator function as a parameter, and it will be used to collapse
+    * The reduce function takes an !!!associative!!! binary operator function as a parameter, this function will be applied to collapse
     * elements from the collection. The order for traversing the elements in the collection is called arbitrary tree
     * decompositions. The reduce function has no initial value (accumulator), so it completely relies
     * on the collection that was provided. The accumulator and the next value that will be stored in the accumulator should have
     * the same type.
+    *
+    * What is binary operator function?
+    *
+    * f(x,y) = z
+    *
+    * is a function that takes two inputs... :)
+    *
+    * What is associative?
+    *
+    * for multiplication
+    *
+    * (a * b) * c = a * (b * c)
+    *
+    * With identity element e = 1
+    *
+    * e * a = a * e = a
+    *
+    * for addition
+    *
+    * (a + b) + c = a + (b + c)
+    *
+    * With identity element e = 0
+    *
+    * e + a = a + e = a
+    *
     */
 
-  List(0, 1, 2, 3, 4, 5).reduce((x, y) => x + y)
+  List(0, 1, 2, 3, 4, 5).reduce((bb, b) => bb + b)
 
   List(0, 1, 2, 3, 4, 5).reduce(_ + _)
 
@@ -24,19 +49,19 @@ object ReductionRepl {
                      3         +           12 = 15 */
 
   //  Gives error
-  List[Int]().reduce((x, y) => x + y)
+  List[Int]().reduce((bb, b) => bb + b)
 
   /**
     * reduceLeft
     *
-    * The reduceLeft function takes a binary operator function as a parameter, that function !!!can be associative!!!
-    * and will be used to collapse elements from the collection. The order for traversing the elements in the collection
+    * The reduceLeft function takes a binary operator function as a parameter, this function !!!can be associative!!!
+    * and will be applied to collapse elements from the collection. The order for traversing the elements in the collection
     * is from left to right and hence the name reduceLeft. The reduceLeft function has no initial value (accumulator),
     * so it completely relies on the collection that was provided. The accumulator and the next value that will be stored in
     * the accumulator should have the same type.
     */
 
-  List(0, 1, 2, 3, 4, 5).reduceLeft((x, y) => x + y)
+  List(0, 1, 2, 3, 4, 5).reduceLeft((bb, b) => bb + b)
 
   /**
   0 + 1 = 1
@@ -47,19 +72,19 @@ object ReductionRepl {
                                            15 */
 
   //  Gives error
-  List[Int]().reduceLeft((x, y) => x + y)
+  List[Int]().reduceLeft((bb, b) => bb + b)
 
   /**
     * reduceRight
     *
-    * The reduceRight function takes a binary operator function as a parameter, that function !!!can be associative!!!
-    * and will be used to collapse elements from the collection. The order for traversing the elements in the collection
+    * The reduceRight function takes a binary operator function as a parameter, this function !!!can be associative!!!
+    * and will be applied to collapse elements from the collection. The order for traversing the elements in the collection
     * is from right to left and hence the name reduceRight. The reduceRight function has no initial value (accumulator),
     * so it completely relies on the collection that was provided. The accumulator and the next value that will be stored in
     * the accumulator should have the same type.
     */
 
-  List(0, 1, 2, 3, 4, 5).reduceRight((x, y) => x + y)
+  List(0, 1, 2, 3, 4, 5).reduceRight((b, bb) => b + bb)
 
   /**                                 9 = 4 + 5
                              12 = 3 + 9
@@ -69,35 +94,35 @@ object ReductionRepl {
   15 */
 
   //  Gives error
-  List[Int]().reduceRight((x, y) => x + y)
+  List[Int]().reduceRight((b, bb) => b + bb)
 
   /**
     * fold
     *
-    * The fold function takes an !!!associative!!! binary operator function as parameter, and it will be used to collapse
+    * The fold function takes an !!!associative!!! binary operator function as parameter, and it will be applied to collapse
     * elements from the collection. The order for traversing the elements is called arbitrary tree decompositions.
     * The fold function also allows you to specify an initial value (accumulator). The accumulator and the next
     * value that will be stored in the accumulator should have the same type.
     */
-  List(1, 2, 3, 4, 5).fold(0)((x, y) => x + y)
+  List(1, 2, 3, 4, 5).fold(0)((bb, b) => bb + b)
 
   /**0 + 1 = 1             0 + 3 = 3           0 + 5 = 5
              1 + 2 = 3             3 + 4 = 7           5
                      3         +           7 = 10      5
                                                10  +   5 = 15 */
 
-  List("zero", "one", "two", "three", "four", "five").fold("")((x, y) => x concat y)
+  List("zero", "one", "two", "three", "four", "five").fold("")((bb, b) => bb concat b)
 
 //  Uses initial value 0
-  List[Int]().fold(0)((x, y) => x + y)
+  List[Int]().fold(0)((bb, b) => bb + b)
 //  Uses initial value ""
-  List[String]().fold("")((x, y) => x concat y)
+  List[String]().fold("")((bb, b) => bb concat b)
 
   /**
     * foldLeft
     *
-    * The foldLeft function takes a binary operator function as a parameter, that function !!!can be associative!!!
-    * It will be used to collapse elements from the collection. The order for traversing the elements in the collection
+    * The foldLeft function takes a binary operator function as a parameter, this function !!!can be associative!!!
+    * It will be applied to collapse elements from the collection. The order for traversing the elements in the collection
     * is from left to right and hence the name foldLeft. The foldLeft function also allows you to specify an initial value
     * (accumulator). The accumulator and the next value that will be stored in the accumulator can have different types.
     */
@@ -111,6 +136,7 @@ object ReductionRepl {
                                      10 + 5 = 15
                                               15 */
 
+  //zeroonetwothreefourfive
   List("zero", "one", "two", "three", "four", "five").foldLeft("")((x, y) => x concat y)
 
   val ba = List(("aubergine", "eggplant"), ("aeroplane", "airplane"), ("beetroot", "beet"))
@@ -125,22 +151,7 @@ object ReductionRepl {
           }
       )
   }
-
-//  structural recursion []
-  Map(0 -> "zero", 1 -> "one", 2 -> "two").map(kv => kv match { case (k, v) => (v, k) })
-  Map(0 -> "zero", 1 -> "one", 2 -> "two").map { case (k, v) => (v, k) }
-
-  val bas = List("aubergine eggplant", "aeroplane airplane", "beetroot beet")
-
-  def strReplaceFold(line: String, tuples: List[String]): String = {
-    tuples
-      .fold(line)(
-        (str, tuple) => {
-          val s = tuple.split("""\x20""")
-          str.replace(s.last, s.head)
-        }
-      )
-  }
+  //I love aubergine and beetroot, however, they never serve them in an aeroplane.
 
   /**
     * foldRight

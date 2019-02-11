@@ -37,9 +37,7 @@ object Applicant {
     def empty: Applicant = Applicant(0, "", "", 0, 0, 0, 0L)
   }
 
-  def sum[A](xs: List[A])(implicit m: Monoid[A]): A = {
-    xs.fold(m.empty)(m.combine)
-  }
+  def sum[A](xs: List[A])(implicit m: Monoid[A]): A = xs.fold(m.empty)(m.combine)
 
   def main(args: Array[String]): Unit = {
     val res = xs

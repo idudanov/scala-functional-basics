@@ -15,7 +15,7 @@ object ForComprehensionRepl {
   /**
     * for-comprehension: foreach
     *
-    * def foreach(f: (A) ⇒ Unit): Unit
+    * def foreach(f: A ⇒ Unit): Unit
     *
     * The foreach method takes a function as parameter and applies it to every element in the collection(monad).
     * As an example, you can use foreach method to loop through all elements in a collection.
